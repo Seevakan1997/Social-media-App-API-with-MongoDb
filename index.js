@@ -12,17 +12,20 @@ dotenv.config();
 mongoose.set("strictQuery", false);
 
 mongoose.connect(process.env.MONGO_URL,{useNewUrlParser: true,
-    useUnifiedTopology: true,},()=>{
-    
-    console.log('connected to MongoDB');
-});
+    useUnifiedTopology: true,})
+    .then(() => {
+        console.log('Connected to MongoDB');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
 //middleware
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 
-app.use("/api/user",userRoute);
+app.use("/api/users",userRoute);
 app.use("/api/auth",authRoute);
 
 
